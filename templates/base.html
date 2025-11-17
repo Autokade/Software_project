@@ -93,7 +93,6 @@
                 <a href="{{ url_for('plagiarism') }}">Plagiarism Check</a>
 
                 {% if session.get('user') %}
-                    {% set admin = list(get_users().keys())[0] %}
                     {% if session.get('user').email == admin %}
                         <a href="{{ url_for('admin_generate_keys') }}">Generate Keys</a>
                         <a href="{{ url_for('admin_backup') }}">Backup DB</a>
