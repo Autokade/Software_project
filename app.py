@@ -6,6 +6,10 @@ from datetime import datetime
 app = Flask(__name__)
 DB_NAME = "creative_registry.db"
 
+# Initialize DB when the app loads
+init_database()
+
+
 def init_database():
     """Initialize database tables if they don't exist"""
     conn = sqlite3.connect(DB_NAME)
