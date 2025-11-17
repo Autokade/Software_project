@@ -162,7 +162,8 @@ def stats():
                          license_stats=license_stats)
 
 if __name__ == '__main__':
-    # Initialize database on startup
+    # Only run this when executing the file directly (not in Streamlit)
     init_database()
     print("✅ Database initialized successfully!")
-    app.run(debug=True, port=5000)
+    # Do NOT run Flask when using Streamlit on Render
+    # app.run(debug=True, port=5000)
