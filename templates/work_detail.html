@@ -35,16 +35,36 @@
 </div>
 
 <h3 style="margin: 20px 0 10px 0;">🔐 Cryptographic Details</h3>
+
 <div class="detail-section">
+
+    <!-- SHA-256 Fingerprint -->
     <p><strong>Content Fingerprint (SHA-256):</strong></p>
-    <div class="fingerprint">{{ work.fingerprint }}</div>
-    
+    <div class="fingerprint">
+        {{ work.fingerprint }}
+    </div>
+
+    <!-- SimHash -->
     <p style="margin-top: 15px;"><strong>SimHash Value:</strong></p>
-    <div class="fingerprint">{{ work.simhash }}</div>
-    
+    <div class="fingerprint">
+        {{ work.simhash }}
+    </div>
+
+    <!-- Digital Signature (Only if certificate issued) -->
     <p style="margin-top: 15px;"><strong>Digital Signature:</strong></p>
-    <div class="fingerprint">{{ work.signature[:100] }}...</div>
+
+    {% if work.signature %}
+        <div class="fingerprint">
+            {{ work.signature[:200] }}...
+        </div>
+    {% else %}
+        <div class="fingerprint" style="color:#dc3545;">
+            No certificate issued. Signature unavailable.
+        </div>
+    {% endif %}
+
 </div>
+
 
 <div style="margin-top: 20px; padding: 15px; background: #d4edda; border-radius: 10px; color: #155724;">
     <strong>✅ Verification Status:</strong> This work is cryptographically signed and verified. The timestamp and fingerprint ensure authenticity and prove ownership.
