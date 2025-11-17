@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Creative Registry{% endblock %}</title>
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -27,6 +26,7 @@
             padding: 30px;
             text-align: center;
         }
+        header h1 { font-size: 2.5em; margin-bottom: 10px; }
         nav {
             background: #f8f9fa;
             padding: 15px 30px;
@@ -45,14 +45,8 @@
             transition: all 0.3s;
             font-weight: 600;
         }
-        nav a:hover {
-            background: #667eea;
-            color: white;
-        }
-        .search-form {
-            display: flex;
-            gap: 10px;
-        }
+        nav a:hover { background: #667eea; color: white; }
+        .search-form { display: flex; gap: 10px; }
         .search-form input {
             padding: 10px 15px;
             border: 2px solid #e9ecef;
@@ -69,9 +63,7 @@
             font-weight: 600;
             transition: all 0.3s;
         }
-        .search-form button:hover {
-            background: #764ba2;
-        }
+        .search-form button:hover { background: #764ba2; }
         .content { padding: 30px; }
         footer {
             background: #f8f9fa;
@@ -84,53 +76,48 @@
 </head>
 
 <body>
-<div class="container">
+    <div class="container">
+        
+        <header>
+            <h1>🎨 Creative Work Registry</h1>
+            <p>Public Registry of Timestamped Creative Works</p>
+        </header>
 
-    <!-- HEADER -->
-    <header>
-        <h1>🎨 Creative Work Registry</h1>
-        <p>Public Registry of Timestamped Creative Works</p>
-    </header>
+        <nav>
+            <div>
+                <a href="/">Home</a>
 
-    <!-- NAVIGATION BAR -->
-    <nav>
-        <div>
-            <a href="{{ url_for('index') }}">Home</a>
-            <a href="{{ url_for('stats') }}">Statistics</a>
-            <a href="{{ url_for('api_works') }}">API</a>
-            <a href="{{ url_for('issue_certificate') }}">Issue Certificate</a>
-            <a href="{{ url_for('verify_certificate') }}">Verify Certificate</a>
-            <a href="{{ url_for('plagiarism') }}">Plagiarism Check</a>
+                <!-- NEW MENU ITEMS -->
+                <a href="{{ url_for('issue_certificate') }}">Issue Certificate</a>
+                <a href="{{ url_for('verify_certificate') }}">Verify Certificate</a>
+                <a href="{{ url_for('plagiarism') }}">Plagiarism Check</a>
 
-            {% if session.get('user') %}
-                {% set users = get_users() %}
-                {% set admin_email = users.keys()|list|first %}
-                {% if session.get('user').email == admin_email %}
-                    <a href="{{ url_for('admin_generate_keys') }}">Generate Keys</a>
-                    <a href="{{ url_for('admin_backup') }}">Backup DB</a>
+                {% if session.get('user') %}
+                    {% set admin = list(get_users().keys())[0] %}
+                    {% if session.get('user').email == admin %}
+                        <a href="{{ url_for('admin_generate_keys') }}">Generate Keys</a>
+                        <a href="{{ url_for('admin_backup') }}">Backup DB</a>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
+
+                <a href="/api/works">API</a>
+            </div>
+
+            <form class="search-form" action="/search" method="get">
+                <input type="text" name="q" placeholder="Search works..." value="{{ request.args.get('q', '') }}">
+                <button type="submit">🔍 Search</button>
+            </form>
+        </nav>
+
+        <div class="content">
+            {% block content %}{% endblock %}
         </div>
 
-        <!-- Search Form -->
-        <form class="search-form" action="{{ url_for('search') }}" method="get">
-            <input type="text" name="q" placeholder="Search works..."
-                   value="{{ request.args.get('q', '') }}">
-            <button type="submit">🔍 Search</button>
-        </form>
-    </nav>
+        <footer>
+            <p>🔒 Secured with RSA-2048 Signatures & SimHash Fingerprinting</p>
+            <p>© 2025 Creative Work Registry</p>
+        </footer>
 
-    <!-- MAIN CONTENT -->
-    <div class="content">
-        {% block content %}{% endblock %}
     </div>
-
-    <!-- FOOTER -->
-    <footer>
-        <p>🔒 Secured with RSA-2048 Digital Signatures & SimHash Fingerprinting</p>
-        <p>© 2025 Creative Work Registry — Cryptographically Verified Records</p>
-    </footer>
-
-</div>
 </body>
 </html>
