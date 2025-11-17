@@ -148,5 +148,6 @@ def stats():
 
 if __name__ == "__main__":
     print("Running locally...")
+    print("chal ja")
     init_database()
     # app.run(debug=True)
