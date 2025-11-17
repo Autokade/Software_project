@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results - Creative Registry{% endblock %}
+
+{% block content %}
+<h2>🔍 Search Results for "{{ query }}"</h2>
+<p style="color: #6c757d; margin-bottom: 20px;">Found {{ works|length }} result(s)</p>
+
+{% if works %}
+<div class="work-grid">
+    {% for work in works %}
+    <div class="work-card" onclick="window.location.href='/work/{{ work.id }}'">
+        <h3>{{ work.title }}</h3>
+        <p class="work-meta">👤 <strong>Creator:</strong> {{ work.creator }}</p>
+        <p class="work-meta">📅 <strong>Registered:</strong> {{ work.timestamp[:10] }}</p>
+        <div>
+            <span class="badge">{{ work.work_type }}</span>
+            <span class="badge">{{ work.license }}</span>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h2>😕 No Results Found</h2>
+    <p>Try searching with different keywords</p>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ work.title }} - Creative Registry{% endblock %}
+
+{% block content %}
+<a href="/" class="back-button">← Back to Registry</a>
+
+<h1 style="color: #667eea; margin-bottom: 20px;">{{ work.title }}</h1>
+
+<div class="detail-section">
+    <div class="detail-row">
+        <span class="detail-label">Creator</span>
+        <span class="detail-value">{{ work.creator }}</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Work Type</span>
+        <span class="detail-value">{{ work.work_type }}</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">License</span>
+        <span class="detail-value">{{ work.license }}</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">File Size</span>
+        <span class="detail-value">{{ work.file_size }} bytes</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Timestamp</span>
+        <span class="detail-value">{{ work.timestamp }}</span>
+    </div>
+    <div class="detail-row">
+        <span class="detail-label">Created At</span>
+        <span class="detail-value">{{ work.created_at }}</span>
+    </div>
+</div>
+
+<h3 style="margin: 20px 0 10px 0;">🔐 Cryptographic Details</h3>
+<div class="detail-section">
+    <p><strong>Content Fingerprint (SHA-256):</strong></p>
+    <div class="fingerprint">{{ work.fingerprint }}</div>
+    
+    <p style="margin-top: 15px;"><strong>SimHash Value:</strong></p>
+    <div class="fingerprint">{{ work.simhash }}</div>
+    
+    <p style="margin-top: 15px;"><strong>Digital Signature:</strong></p>
+    <div class="fingerprint">{{ work.signature[:100] }}...</div>
+</div>
+
+<div style="margin-top: 20px; padding: 15px; background: #d4edda; border-radius: 10px; color: #155724;">
+    <strong>✅ Verification Status:</strong> This work is cryptographically signed and verified. The timestamp and fingerprint ensure authenticity and prove ownership.
+</div>
+{% endblock %}

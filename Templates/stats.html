@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics - Creative Registry{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 30px;">📊 Registry Statistics</h2>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>{{ total_works }}</h3>
+        <p>Total Works</p>
+    </div>
+</div>
+
+<h3 style="margin: 30px 0 15px 0;">📈 Works by Type</h3>
+<div class="detail-section">
+    {% for stat in type_stats %}
+    <div class="detail-row">
+        <span class="detail-label">{{ stat.work_type }}</span>
+        <span class="detail-value">{{ stat.count }} work(s)</span>
+    </div>
+    {% endfor %}
+</div>
+
+<h3 style="margin: 30px 0 15px 0;">👥 Top Creators</h3>
+<div class="detail-section">
+    {% for creator in top_creators %}
+    <div class="detail-row">
+        <span class="detail-label">{{ creator.creator }}</span>
+        <span class="detail-value">{{ creator.count }} work(s)</span>
+    </div>
+    {% endfor %}
+</div>
+
+<h3 style="margin: 30px 0 15px 0;">⚖️ License Distribution</h3>
+<div class="detail-section">
+    {% for license in license_stats %}
+    <div class="detail-row">
+        <span class="detail-label">{{ license.license }}</span>
+        <span class="detail-value">{{ license.count }} work(s)</span>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

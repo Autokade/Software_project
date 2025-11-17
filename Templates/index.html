@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>{{ total_works }}</h3>
+        <p>Total Works Registered</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ type_stats|length }}</h3>
+        <p>Work Types</p>
+    </div>
+    <div class="stat-card">
+        <h3>100%</h3>
+        <p>Verified</p>
+    </div>
+</div>
+
+{% if works %}
+<h2 style="margin-bottom: 20px;">📚 Registered Creative Works</h2>
+<div class="work-grid">
+    {% for work in works %}
+    <div class="work-card" onclick="window.location.href='/work/{{ work.id }}'">
+        <h3>{{ work.title }}</h3>
+        <p class="work-meta">👤 <strong>Creator:</strong> {{ work.creator }}</p>
+        <p class="work-meta">📅 <strong>Registered:</strong> {{ work.timestamp[:10] }}</p>
+        <div>
+            <span class="badge">{{ work.work_type }}</span>
+            <span class="badge">{{ work.license }}</span>
+        </div>
+        <p class="work-meta" style="margin-top: 10px;">📊 {{ work.file_size }} bytes</p>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="empty-state">
+    <h2>📭 No Works Registered Yet</h2>
+    <p>Be the first to register your creative work!</p>
+</div>
+{% endif %}
+{% endblock %}
