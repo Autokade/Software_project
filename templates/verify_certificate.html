@@ -1,8 +1,11 @@
 {% extends "base.html" %}
+{% block title %}Verify Certificate{% endblock %}
 {% block content %}
-<h2>Verify Certificate</h2>
-<form method="POST" enctype="multipart/form-data">
-    <label><strong>Upload Certificate JSON:</strong></label>
+
+<h2>🔍 Verify Certificate Authenticity</h2>
+<p>Upload a certificate JSON file to verify its digital signature and originality.</p>
+
+<form method="POST" enctype="multipart/form-data" style="margin-top:20px;">
     <input type="file" name="cert_file" accept=".json" required>
     <button type="submit">Verify</button>
 </form>
