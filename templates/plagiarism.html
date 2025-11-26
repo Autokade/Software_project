@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Plagiarism Check</h2>
+<form method="POST" enctype="multipart/form-data">
+    <label>Upload Work (PDF):</label>
+    <input type="file" name="file" accept=".pdf">
+    <button type="submit">Check</button>
+</form>
+{% endblock %}
