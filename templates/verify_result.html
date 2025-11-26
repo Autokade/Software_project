@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Verification Result{% endblock %}
+{% block content %}
+
+<h2>📜 Certificate Verification Result</h2>
+
+{% if result.signature_valid %}
+    <p style="color:green; font-size:1.1em; font-weight:bold;">
+        ✔ Authentic Certificate — Signature is VALID!
+    </p>
+{% else %}
+    <p style="color:red; font-size:1.1em; font-weight:bold;">
+        ❌ INVALID Certificate — Digital Signature Failed!
+    </p>
+{% endif %}
+
+<h3>Certificate Details</h3>
+
+<div style="background:#f4f4f4; padding:15px; border-radius:10px; margin-top:10px;">
+    <p><strong>ID:</strong> {{ result.certificate.certificate_id }}</p>
+    <p><strong>Work ID:</strong> {{ result.certificate.work_id }}</p>
+    <p><strong>Issued By:</strong> {{ result.certificate.issued_by }}</p>
+    <p><strong>Issued At:</strong> {{ result.certificate.issued_at }}</p>
+    <p><strong>Fingerprint:</strong> {{ result.certificate.fingerprint }}</p>
+</div>
+
+{% endblock %}
