@@ -1,13 +1,25 @@
 {% extends "base.html" %}
+{% block title %}Issue Certificate{% endblock %}
 {% block content %}
-<h2>Issue Certificate</h2>
-<form method="POST">
-    <label>Choose Work:</label>
-    <select name="work_id">
+
+<h2>📜 Issue Digital Certificate</h2>
+<p>Generate a signed authenticity certificate for your uploaded works.</p>
+
+{% if works %}
+<form method="POST" style="margin-top:20px;">
+    <label><strong>Select Your Work:</strong></label><br>
+    <select name="work_id" required
+            style="padding:10px; border-radius:8px; width:60%; margin-top:10px;">
         {% for wid, work in works.items() %}
-        <option value="{{ wid }}">{{ work.title }}</option>
+        <option value="{{ wid }}">{{ work.title }} ({{ work.uploaded_at[:10] }})</option>
         {% endfor %}
     </select>
+
+    <br><br>
     <button type="submit">Issue Certificate</button>
 </form>
+{% else %}
+<p style="margin-top:15px;">⚠ You must upload a work before issuing certificates!</p>
+{% endif %}
+
 {% endblock %}
