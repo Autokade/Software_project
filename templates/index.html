@@ -1,49 +1,51 @@
 {% extends "base.html" %}
-
-{% block title %}Home - Creative Registry{% endblock %}
+{% block title %}Home - Creative Work Registry{% endblock %}
 
 {% block content %}
 
-<!-- Registered Works Section -->
+<!-- Registered Creative Works -->
 <div class="card">
     <div class="card-header">
         📚 Registered Creative Works
     </div>
     <div class="card-body">
         {% if works and works|length > 0 %}
-            
-            <table class="nice-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Type</th>
-                        <th>Uploaded By</th>
-                        <th>Uploaded At</th>
-                        <th>View</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for w in works %}
-                    <tr>
-                        <td>{{ w.title }}</td>
-                        <td>{{ w.work_type }}</td>
-                        <td>{{ w.uploaded_by }}</td>
-                        <td>{{ w.uploaded_at[:10] }}</td>
-                        <td><a href="{{ url_for('work_detail', work_id=w.id) }}" style="color:#667eea;font-weight:600;">Open</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-
+        <table class="nice-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Uploaded By</th>
+                    <th>Uploaded At</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for w in works %}
+                <tr>
+                    <td>{{ w.title }}</td>
+                    <td>{{ w.work_type }}</td>
+                    <td>{{ w.uploaded_by }}</td>
+                    <td>{{ w.uploaded_at[:10] }}</td>
+                    <td>
+                        <a href="{{ url_for('work_detail', work_id=w.id) }}" 
+                           style="color:#667eea; font-weight:600;">
+                            Open
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% else %}
-            <p>No works uploaded yet. Upload your first creative file!</p>
+        <p>No works uploaded yet. Upload your first creative file!</p>
         {% endif %}
     </div>
 </div>
 
 
-<!-- Quick Plagiarism Check -->
-<div class="card">
+<!-- Quick Plagiarism Check Section -->
+<div class="card" id="plagiarism">
     <div class="card-header">
         🕵️ Quick Plagiarism Check
     </div>
@@ -52,12 +54,10 @@
               method="POST" 
               enctype="multipart/form-data">
             
-            <input type="file" name="file" accept="application/pdf" required>
-
+            <input type="file" name="file" accept=".pdf" required>
             <button type="submit">Check Plagiarism</button>
         </form>
     </div>
 </div>
-
 
 {% endblock %}
