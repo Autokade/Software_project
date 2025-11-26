@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Issue Certificate</h2>
+<form method="POST">
+    <label>Choose Work:</label>
+    <select name="work_id">
+        {% for wid, work in works.items() %}
+        <option value="{{ wid }}">{{ work.title }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Issue Certificate</button>
+</form>
+{% endblock %}
