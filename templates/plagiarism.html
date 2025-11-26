@@ -2,8 +2,9 @@
 {% block content %}
 <h2>Plagiarism Check</h2>
 <form method="POST" enctype="multipart/form-data">
-    <label>Upload Work (PDF):</label>
-    <input type="file" name="file" accept=".pdf">
+    <label><strong>Upload Work (PDF):</strong></label>
+    <input type="file" name="file" accept=".pdf" required>
     <button type="submit">Check</button>
 </form>
+
 {% endblock %}
