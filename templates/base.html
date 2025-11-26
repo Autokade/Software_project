@@ -102,39 +102,6 @@
             text-align: center;
         }
 
-        /* BADGES */
-        .badge {
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.78em;
-            font-weight: bold;
-        }
-        .badge.red { background: #ff4c4c; color: #fff; }
-        .badge.orange { background: #ffa200; color: #fff; }
-        .badge.green { background: #28a745; color: #fff; }
-
-        .match-row {
-            padding: 8px 5px;
-            border-bottom: 1px solid #e8e8e8;
-            font-size: 0.9em;
-            text-align: left;
-        }
-
-        /* BUTTONS */
-        button {
-            background: #667eea;
-            color: white;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: 0.25s;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #4a54d1;
-        }
-
         /* FOOTER */
         footer {
             background: #f8f9fa;
@@ -157,11 +124,30 @@
 
         <!-- NAVBAR -->
         <nav>
-            <a href="{{ url_for('index') }}" class="{% if request.path == url_for('index') %}active{% endif %}">Home</a>
-            <a href="{{ url_for('issue_certificate') }}" class="{% if request.path == url_for('issue_certificate') %}active{% endif %}">Issue Certificate</a>
-            <a href="{{ url_for('verify_certificate') }}" class="{% if request.path == url_for('verify_certificate') %}active{% endif %}">Verify Certificate</a>
-            <a href="{{ url_for('plagiarism') }}" class="{% if request.path == url_for('plagiarism') %}active{% endif %}">Plagiarism Check</a>
-            <a href="{{ url_for('api_page') }}" class="{% if request.path.startswith('/api') %}active{% endif %}">API</a>
+            <a href="{{ url_for('index') }}"
+               class="{% if request.path == url_for('index') %}active{% endif %}">
+               Home
+            </a>
+
+            <a href="{{ url_for('issue_certificate') }}"
+               class="{% if request.path == url_for('issue_certificate') %}active{% endif %}">
+               Issue Certificate
+            </a>
+
+            <a href="{{ url_for('verify_certificate') }}"
+               class="{% if request.path == url_for('verify_certificate') %}active{% endif %}">
+               Verify Certificate
+            </a>
+
+            <!-- FIXED: Scroll to plagiarism card on home instead of GET request -->
+            <a href="{{ url_for('index') }}#plagiarism">
+               Plagiarism Check
+            </a>
+
+            <a href="{{ url_for('api_page') }}">
+                API
+            </a>
+
             {% if session.get('user') %}
             <a href="{{ url_for('logout') }}">Logout</a>
             {% endif %}
