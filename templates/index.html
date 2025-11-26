@@ -1,117 +1,58 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
+
+{% block title %}Home - Creative Registry{% endblock %}
+
 {% block content %}
 
-<!-- ==== Registered Works Card ==== -->
+<!-- Registered Works Section -->
 <div class="card">
     <div class="card-header">
         📚 Registered Creative Works
     </div>
     <div class="card-body">
-
-        {% if works %}
-        <table class="nice-table">
-            <tr>
-                <th>Title</th>
-                <th>Type</th>
-                <th>Uploaded By</th>
-                <th>Date</th>
-                <th>Actions</th>
-            </tr>
-
-            {% for w in works %}
-            <tr>
-                <td>{{ w.title }}</td>
-                <td>{{ w.work_type }}</td>
-                <td>{{ w.uploaded_by }}</td>
-                <td>{{ w.uploaded_at[:10] }}</td>
-                <td>
-                    <a href="{{ url_for('work_detail', work_id=w.id) }}">View</a> |
-                    <a href="{{ url_for('download_work', work_id=w.id) }}">Download</a>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
+        {% if works and works|length > 0 %}
+            
+            <table class="nice-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Uploaded By</th>
+                        <th>Uploaded At</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for w in works %}
+                    <tr>
+                        <td>{{ w.title }}</td>
+                        <td>{{ w.work_type }}</td>
+                        <td>{{ w.uploaded_by }}</td>
+                        <td>{{ w.uploaded_at[:10] }}</td>
+                        <td><a href="{{ url_for('work_detail', work_id=w.id) }}" style="color:#667eea;font-weight:600;">Open</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
 
         {% else %}
-        <p>No works uploaded yet. Upload your first creative file!</p>
+            <p>No works uploaded yet. Upload your first creative file!</p>
         {% endif %}
     </div>
 </div>
 
 
-<!-- ==== Plagiarism Check Card ==== -->
+<!-- Quick Plagiarism Check -->
 <div class="card">
     <div class="card-header">
         🕵️ Quick Plagiarism Check
     </div>
     <div class="card-body">
-
-        <p>Upload a PDF to compare similarity against works in our registry.</p>
-
-        <form method="POST" action="{{ url_for('plagiarism') }}" enctype="multipart/form-data">
-            <input type="file" name="file" accept=".pdf" required>
+        <form action="{{ url_for('plagiarism') }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" required>
             <button type="submit">Check Plagiarism</button>
         </form>
-
     </div>
 </div>
-
-
-<!-- ==== Recent Scans Card ==== -->
-{% if plagiarism_reports %}
-<div class="card">
-    <div class="card-header">
-        📊 Recent Plagiarism Scans
-    </div>
-    <div class="card-body">
-
-        <table class="nice-table">
-            <tr>
-                <th>File</th>
-                <th>Checked By</th>
-                <th>Date</th>
-                <th>Matches</th>
-            </tr>
-
-            {% for report in plagiarism_reports %}
-            <tr>
-                <td>{{ report.filename }}</td>
-                <td>{{ report.checked_by }}</td>
-                <td>{{ report.timestamp[:10] }}</td>
-                <td>
-                    {% if report.matches %}
-                        <details>
-                            <summary>{{ report.matches|length }} match(es)</summary>
-                            {% for m in report.matches %}
-                                <div class="match-row">
-                                    <strong>{{ m.title }}</strong><br>
-                                    by {{ m.uploaded_by }}<br>
-
-                                    {% if m.similarity_pct > 90 %}
-                                        <span class="badge red">{{ m.similarity_pct }}% (High Risk!)</span>
-                                    {% elif m.similarity_pct > 70 %}
-                                        <span class="badge orange">{{ m.similarity_pct }}%</span>
-                                    {% else %}
-                                        <span class="badge green">{{ m.similarity_pct }}%</span>
-                                    {% endif %}
-
-                                    <br>
-                                    <a href="{{ url_for('work_detail', work_id=m.work_id) }}">View</a> |
-                                    <a href="{{ url_for('download_work', work_id=m.work_id) }}">Download</a>
-                                </div>
-                            {% endfor %}
-                        </details>
-                    {% else %}
-                        <span style="color:green;">None 🎉</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-
-    </div>
-</div>
-{% endif %}
 
 {% endblock %}
