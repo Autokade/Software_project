@@ -32,8 +32,9 @@
             padding: 15px 30px;
             border-bottom: 2px solid #e9ecef;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            gap: 12px;
             flex-wrap: wrap;
         }
         nav a {
@@ -46,24 +47,6 @@
             font-weight: 600;
         }
         nav a:hover { background: #667eea; color: white; }
-        .search-form { display: flex; gap: 10px; }
-        .search-form input {
-            padding: 10px 15px;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            min-width: 250px;
-        }
-        .search-form button {
-            padding: 10px 20px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .search-form button:hover { background: #764ba2; }
         .content { padding: 30px; }
         footer {
             background: #f8f9fa;
@@ -84,28 +67,15 @@
         </header>
 
         <nav>
-            <div>
-                <a href="/">Home</a>
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('issue_certificate') }}">Issue Certificate</a>
+            <a href="{{ url_for('verify_certificate') }}">Verify Certificate</a>
+            <a href="{{ url_for('plagiarism') }}">Plagiarism Check</a>
+            <a href="{{ url_for('api_page') }}">API</a>
 
-                <!-- NEW MENU ITEMS -->
-                <a href="{{ url_for('issue_certificate') }}">Issue Certificate</a>
-                <a href="{{ url_for('verify_certificate') }}">Verify Certificate</a>
-                <a href="{{ url_for('plagiarism') }}">Plagiarism Check</a>
-
-                {% if session.get('user') %}
-                    {% if session.get('user').email == admin %}
-                        <a href="{{ url_for('admin_generate_keys') }}">Generate Keys</a>
-                        <a href="{{ url_for('admin_backup') }}">Backup DB</a>
-                    {% endif %}
-                {% endif %}
-
-                <a href="/api/works">API</a>
-            </div>
-
-            <form class="search-form" action="/search" method="get">
-                <input type="text" name="q" placeholder="Search works..." value="{{ request.args.get('q', '') }}">
-                <button type="submit">🔍 Search</button>
-            </form>
+            {% if session.get('user') %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% endif %}
         </nav>
 
         <div class="content">
