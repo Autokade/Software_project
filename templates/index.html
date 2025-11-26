@@ -1,13 +1,76 @@
 {% extends "base.html" %}
-{% block title %}Home - Creative Work Registry{% endblock %}
+{% block title %}Dashboard - Creative Work Registry{% endblock %}
 
 {% block content %}
 
-<!-- Registered Creative Works -->
-<div class="card">
-    <div class="card-header">
-        📚 Registered Creative Works
+<!-- 🔹 ERROR / SUCCESS FLASH MESSAGES -->
+{% with messages = get_flashed_messages(with_categories=True) %}
+{% if messages %}
+    {% for category, message in messages %}
+    <div class="alert" style="
+        background: {% if category == 'error' %}#ffdddd{% else %}#ddffdd{% endif %};
+        padding: 12px; margin-bottom: 20px; border-radius: 8px;
+        border-left: 6px solid {% if category == 'error' %}#cc0000{% else %}#00aa00{% endif %};">
+        {{ message }}
     </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- Dashboard Metrics -->
+<div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center;">
+
+    <div class="card" style="flex:1; min-width:250px;">
+        <div class="card-header" style="text-align:center;">{{ total_works }}</div>
+        <div class="card-body" style="text-align:center; font-weight:600;">Total Works Registered</div>
+    </div>
+
+    <div class="card" style="flex:1; min-width:250px;">
+        <div class="card-header" style="text-align:center;">{{ work_types }}</div>
+        <div class="card-body" style="text-align:center; font-weight:600;">Work Types</div>
+    </div>
+
+    <div class="card" style="flex:1; min-width:250px;">
+        <div class="card-header" style="background:#28a745; text-align:center;">100%</div>
+        <div class="card-body" style="text-align:center; font-weight:600;">Verified</div>
+    </div>
+
+</div>
+
+<!-- Upload Work -->
+<div class="card">
+    <div class="card-header">📤 Upload New Work</div>
+    <div class="card-body">
+        <form action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+            
+            <label>Title</label>
+            <input type="text" name="title" placeholder="My Creative Work" required
+                   style="width:100%; padding:10px; border-radius:8px; border:1px solid #ccc; margin-bottom:12px;">
+            
+            <label>Work Type</label>
+            <select name="work_type" style="width:100%; padding:10px; border-radius:8px; margin-bottom:12px;">
+                <option value="Document">Document</option>
+                <option value="Source Code">Source Code</option>
+                <option value="Music">Music</option>
+                <option value="Artwork">Artwork</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label>Description</label>
+            <textarea name="description" placeholder="Describe your work..."
+                      style="width:100%; padding:10px; height:120px; border-radius:8px; margin-bottom:12px;"></textarea>
+
+            <label>File</label>
+            <input type="file" name="file" required style="margin-bottom: 20px;">
+
+            <button type="submit">Upload Work</button>
+        </form>
+    </div>
+</div>
+
+<!-- Registered Works -->
+<div class="card">
+    <div class="card-header">📚 Registered Creative Works</div>
     <div class="card-body">
         {% if works and works|length > 0 %}
         <table class="nice-table">
@@ -27,12 +90,7 @@
                     <td>{{ w.work_type }}</td>
                     <td>{{ w.uploaded_by }}</td>
                     <td>{{ w.uploaded_at[:10] }}</td>
-                    <td>
-                        <a href="{{ url_for('work_detail', work_id=w.id) }}" 
-                           style="color:#667eea; font-weight:600;">
-                            Open
-                        </a>
-                    </td>
+                    <td><a href="{{ url_for('work_detail', work_id=w.id) }}" style="color:#667eea;font-weight:600;">Open</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -43,19 +101,13 @@
     </div>
 </div>
 
-
-<!-- Quick Plagiarism Check Section -->
+<!-- Quick Plagiarism Check -->
 <div class="card" id="plagiarism">
-    <div class="card-header">
-        🕵️ Quick Plagiarism Check
-    </div>
+    <div class="card-header">🕵️ Quick Plagiarism Check</div>
     <div class="card-body">
-        <form action="{{ url_for('plagiarism') }}" 
-              method="POST" 
-              enctype="multipart/form-data">
-            
+        <form action="{{ url_for('plagiarism') }}" method="POST" enctype="multipart/form-data">
             <input type="file" name="file" accept=".pdf" required>
-            <button type="submit">Check Plagiarism</button>
+            <button type="submit" style="margin-left:10px;">Check Plagiarism</button>
         </form>
     </div>
 </div>
